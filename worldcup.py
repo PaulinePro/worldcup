@@ -95,13 +95,27 @@ def prettify(match):
     \u26BD  {}
     """.format(
         color,
-        home['country'],
+        country_name_crown(match, True),
         home['goals'],
         away['goals'],
-        away['country'],
+        country_name_crown(match, False),
         progress_bar(match_percentage),
         colorama.Fore.WHITE + match_status
     )
+
+
+def country_name_crown(match, home=True):
+    """
+    Return the country name and add a crown if the team is winner.
+    """
+    winner = match['winner']
+    # get home team or away team
+    team = match['home_team' if home else 'away_team']
+    # check winner is not null
+    if winner:
+        if winner == team['country']:
+            return u'\U0001F451 {}'.format(team['country'])
+    return team['country']
 
 
 def group_list(country):
